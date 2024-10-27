@@ -8,10 +8,16 @@ mongoose
   .then(() => console.log("Connection Established"))
   .then(() => products.deleteMany())
   .then(() => {
-    products.create(datas);
-    process.exit(0);
+    console.log("Adding Data to database")
+    return products.create(datas);
+  })
+  .then((result)=>{
+    console.log(`Added ${result.length} products successfully`);
+    mongoose.connection.close();
+    process.exit(0)
   })
   .catch((err) => {
     console.log(err);
+    mongoose.connection.close();
     process.exit(1)
   });
